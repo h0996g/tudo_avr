@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tudo_avr/core/widgets/submit_button_widget.dart';
 import 'package:tudo_avr/core/widgets/text_input_widget.dart';
+import 'package:tudo_avr/feature/auth/views/register_page.dart';
 import 'package:tudo_avr/feature/auth/views/widgets/form_card_widget.dart';
 import 'package:tudo_avr/feature/auth/views/widgets/gradient_backround_widget.dart';
 import 'package:tudo_avr/feature/auth/views/widgets/row_redirect_widget.dart';
@@ -36,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
                   prefixIcon: Icons.email,
                   controller: emailController,
                 ),
+
                 const SizedBox(height: 16),
                 TextInputWidget(
                   labelText: 'Password',
@@ -50,7 +52,14 @@ class _LoginPageState extends State<LoginPage> {
                 RowRedirectWidget(
                   primaryText: "Don't have an account?",
                   buttonText: 'Sign Up',
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const RegisterPage(),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
