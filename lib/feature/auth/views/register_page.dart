@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tudo_avr/core/widgets/submit_button_widget.dart';
 import 'package:tudo_avr/core/widgets/text_input_widget.dart';
+import 'package:tudo_avr/feature/auth/manager/data/auth_dababase.dart';
 import 'package:tudo_avr/feature/auth/views/login_page.dart';
 import 'package:tudo_avr/feature/auth/views/widgets/form_card_widget.dart';
 import 'package:tudo_avr/feature/auth/views/widgets/gradient_backround_widget.dart';
@@ -18,6 +19,23 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController ageController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  @override
+  void dispose() {
+    nameController.dispose();
+    ageController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  void register() {
+    AuthDatabase.register(
+      name: nameController.text,
+      email: emailController.text,
+      age: ageController.text,
+      password: passwordController.text,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +80,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   suffixIcon: Icons.visibility,
                 ),
                 SizedBox(height: 24),
-                SubmitButtonWidget(text: 'Register', onPressed: () {}),
+                SubmitButtonWidget(
+                  text: 'Register',
+                  onPressed: () {
+                    register();
+                  },
+                ),
                 SizedBox(height: 5),
                 RowRedirectWidget(
                   primaryText: "already have an account?",
