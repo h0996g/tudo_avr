@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tudo_avr/feature/profile/views/profile_page.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({super.key});
@@ -9,11 +10,15 @@ class StartPage extends StatefulWidget {
 
 class _StartPageState extends State<StartPage> {
   int _currentIndex = 0;
-
+  final List<Widget> _pages = [
+    Container(color: Colors.red), // Home
+    Container(color: Colors.green), // Search
+    ProfilePage(), // Profile
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Placeholder(),
+      body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {

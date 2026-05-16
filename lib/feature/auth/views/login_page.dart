@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:tudo_avr/core/cache/cache.dart';
+import 'package:tudo_avr/core/const/cach_keys.dart';
 import 'package:tudo_avr/core/widgets/submit_button_widget.dart';
 import 'package:tudo_avr/core/widgets/text_input_widget.dart';
 import 'package:tudo_avr/feature/auth/manager/data/auth_dababase.dart';
@@ -33,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
       password: passwordController.text,
     );
     if (result.isNotEmpty) {
+      Cache.pref.setInt(CacheKeys.userId, result.first['id']);
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => const StartPage()),
@@ -63,6 +66,13 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await Future.delayed(const Duration(seconds: 5));
+          print('Help button pressed');
+        },
+        child: const Icon(Icons.help_outline),
+      ),
       body: GradientBackgroundWidget(
         child: Center(
           child: FormCardWidget(
