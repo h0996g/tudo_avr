@@ -12,14 +12,11 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  ProfileM? profileData;
-  bool isLoading = false;
+  late final ProfileM profileData;
+  bool isLoading = true;
 
   void fetchProfile() async {
-    setState(() {
-      isLoading = true;
-    });
-    await Future.delayed(const Duration(seconds: 4));
+    // await Future.delayed(const Duration(seconds: 4));
     final result = await ProfileDatabase.getProfileById();
     profileData = ProfileM.fromJson(result);
 
@@ -36,53 +33,46 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading
-        ? const Center(child: CircularProgressIndicator())
-        : SizedBox(
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    print(profileData);
-                  },
-                  child: Text('test'),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  profileData?.name ?? 'Unknown',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  profileData?.email ?? 'Unknown',
-                  style: TextStyle(fontSize: 16),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  'age: ${profileData?.age ?? 'Unknown'}',
-                  style: TextStyle(fontSize: 16),
-                ),
-                SizedBox(height: 30),
-                ElevatedButton(onPressed: null, child: Text('Edit Profile')),
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextButton(
+            onPressed: () {
+              print(profileData);
+            },
+            child: Text('test'),
+          ),
+          SizedBox(height: 20),
+          Text(
+            'name: ${profileData.name}',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 10),
+          Text('email: ${profileData.email}', style: TextStyle(fontSize: 16)),
+          SizedBox(height: 20),
+          Text('age: ${profileData.age}', style: TextStyle(fontSize: 16)),
+          SizedBox(height: 30),
+          ElevatedButton(onPressed: null, child: Text('Edit Profile')),
 
-                SizedBox(height: 30),
-                ElevatedButton(
-                  onPressed: () {
-                    Cache.pref.clear();
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
-                      ),
-                      (route) => false,
-                    );
-                  },
-                  child: Text('Logout', style: TextStyle(color: Colors.red)),
-                ),
-              ],
-            ),
-          );
+          SizedBox(height: 30),
+          ElevatedButton(
+            onPressed: () {
+              Cache.pref.clear();
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+                (route) => false,
+              );
+            },
+            child: Text('Logout', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
   }
 }

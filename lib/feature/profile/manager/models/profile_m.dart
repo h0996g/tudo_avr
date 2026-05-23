@@ -2,6 +2,7 @@ class ProfileM {
   final String? name;
   final String? email;
   final int? age;
+
   ProfileM({this.name, this.email, this.age});
 
   factory ProfileM.fromJson(Map<String, dynamic> json) {
@@ -12,3 +13,6 @@ class ProfileM {
     return {'name': name, 'email': email, 'age': age};
   }
 }
+
+
+//{'id': 1, 'name': 'John Doe', 'email': 'john.doe@example.com', 'age': 30}
