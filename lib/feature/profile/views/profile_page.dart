@@ -3,6 +3,7 @@ import 'package:tudo_avr/core/cache/cache.dart';
 import 'package:tudo_avr/feature/auth/views/login_page.dart';
 import 'package:tudo_avr/feature/profile/manager/data/profile_database.dart';
 import 'package:tudo_avr/feature/profile/manager/models/profile_m.dart';
+import 'package:tudo_avr/feature/profile/views/edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -12,13 +13,13 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  late final ProfileM profileData;
+  late ProfileM profileData;
   bool isLoading = true;
 
   void fetchProfile() async {
     // await Future.delayed(const Duration(seconds: 4));
     final result = await ProfileDatabase.getProfileById();
-    profileData = ProfileM.fromJson(result);
+    profileData = result;
 
     setState(() {
       isLoading = false;
@@ -57,7 +58,23 @@ class _ProfilePageState extends State<ProfilePage> {
           SizedBox(height: 20),
           Text('age: ${profileData.age}', style: TextStyle(fontSize: 16)),
           SizedBox(height: 30),
-          ElevatedButton(onPressed: null, child: Text('Edit Profile')),
+          ElevatedButton(
+            onPressed: () async {
+              final ProfileM? result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      EditProfilePage(profileData: profileData),
+                ),
+              );
+              if (result != null) {
+                setState(() {
+                  profileData = result;
+                });
+              }
+            },
+            child: Text('Edit Profile'),
+          ),
 
           SizedBox(height: 30),
           ElevatedButton(
